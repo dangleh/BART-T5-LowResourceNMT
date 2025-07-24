@@ -1,0 +1,7 @@
+transformers
+sentencepiece
+datasets
+accelerate
+evaluate
+sacrebleu
+streamlit
