@@ -9,6 +9,11 @@ A production-ready, demo-friendly Neural Machine Translation (NMT) system for En
 - Docker & docker-compose support for easy deployment
 - Modular, extensible codebase
 
+## Streamlit Demo
+
+Try the live demo here:  
+👉 [https://low-resource-machine-translation-envi.streamlit.app/](https://low-resource-machine-translation-envi.streamlit.app/)
+
 ## Project Structure
 
 ```text
