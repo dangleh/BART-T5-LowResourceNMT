@@ -1,6 +1,6 @@
 import streamlit as st
 import time
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
+from src.model import get_translator
 
 st.title("English → Vietnamese Translation (mBART50 Finetuned)")
 st.markdown(
@@ -16,10 +16,7 @@ MODEL = "dangleh/mbart50_envi_finetuned"
 
 @st.cache_resource
 def load_models():
-    model = AutoModelForSeq2SeqLM.from_pretrained(MODEL)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL)
-    translator = pipeline("translation", model=model, tokenizer=tokenizer, src_lang="en_XX", tgt_lang="vi_VN")
-    return translator
+    return get_translator(MODEL)
 
 def main():
     translator = load_models()
