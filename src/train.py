@@ -2,20 +2,9 @@ import torch
 from transformers import Seq2SeqTrainingArguments, DataCollatorForSeq2Seq, Seq2SeqTrainer
 from src.data import get_dataset, preprocess_dataset
 from src.model import load_model, load_tokenizer
-
-def compute_metrics(eval_preds, tokenizer, metric):
-    import numpy as np
-    preds, labels = eval_preds
-    if isinstance(preds, tuple):
-        preds = preds[0]
-    preds = np.where(preds != -100, preds, tokenizer.pad_token_id)
-    decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
-    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
-    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
-    decoded_preds = [pred.strip() for pred in decoded_preds]
-    decoded_labels = [[label.strip()] for label in decoded_labels]
-    result = metric.compute(predictions=decoded_preds, references=decoded_labels)
-    return {"bleu": result["score"]}
+from src.evaluate import compute_metrics
+import logging
+logging.basicConfig(level=logging.INFO)
 
 def main():
     import evaluate
@@ -75,9 +64,10 @@ def main():
         compute_metrics=lambda eval_preds: compute_metrics(eval_preds, tokenizer, metric)
     )
 
+    logging.info("Start training...")
     trainer.train()
     trainer.save_model(OUTPUT_DIR + "/model")
-    print("Training complete. Model saved.")
+    logging.info("Training complete. Model saved.")
 
 if __name__ == "__main__":
     main()

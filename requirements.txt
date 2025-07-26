@@ -5,6 +5,5 @@ accelerate
 evaluate
 sacrebleu
 streamlit
-
 streamlit-option-menu
 torch
